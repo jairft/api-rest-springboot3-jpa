@@ -1,9 +1,7 @@
 package br.com.ibm.apirest.recourse;
 
 import br.com.ibm.apirest.entities.Order;
-import br.com.ibm.apirest.entities.User;
 import br.com.ibm.apirest.services.OrderService;
-import br.com.ibm.apirest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
