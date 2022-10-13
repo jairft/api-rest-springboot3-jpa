@@ -1,4 +1,4 @@
-package br.com.ibm.apirest.recourse;
+package br.com.ibm.apirest.resourses;
 
 import br.com.ibm.apirest.entities.User;
 import br.com.ibm.apirest.services.UserService;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserRecource {
+public class UserResource {
 
     @Autowired
     private UserService userService;

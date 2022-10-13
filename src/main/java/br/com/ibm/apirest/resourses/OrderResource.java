@@ -1,9 +1,7 @@
-package br.com.ibm.apirest.recourse;
+package br.com.ibm.apirest.resourses;
 
-import br.com.ibm.apirest.entities.Category;
-import br.com.ibm.apirest.entities.Product;
-import br.com.ibm.apirest.services.CategoryService;
-import br.com.ibm.apirest.services.ProductService;
+import br.com.ibm.apirest.entities.Order;
+import br.com.ibm.apirest.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,19 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/products")
-public class ProductRecource {
+@RequestMapping(value = "/orders")
+public class OrderResource {
 
     @Autowired
-    private ProductService productService;
+    private OrderService orderService;
     @GetMapping
-    public ResponseEntity<List<Product>> findAll(){
-        List<Product> list = productService.findAll();
+    public ResponseEntity<List<Order>> findAll(){
+        List<Order> list = orderService.findAll();
         return ResponseEntity.ok().body(list);
     }
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id){
-        Product obj = productService.findById(id);
+    public ResponseEntity<Order> findById(@PathVariable Long id){
+        Order obj = orderService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 }
