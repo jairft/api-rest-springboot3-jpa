@@ -4,6 +4,7 @@ import br.com.ibm.apirest.entities.User;
 import br.com.ibm.apirest.repositories.UserRepository;
 import br.com.ibm.apirest.services.exceptions.DatabaseException;
 import br.com.ibm.apirest.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,14 +36,19 @@ public class UserService {
         }catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(id);
         }catch (DataIntegrityViolationException e){
-            throw new DatabaseException(e.getMessage());
+
         }
 
     }
     public User update(Long id, User user) {
-        User entity = userRepository.getReferenceById(id);
-        updateData(entity, user);
-        return  userRepository.save(entity);
+        try {
+            User entity = userRepository.getReferenceById(id);
+            updateData(entity, user);
+            return  userRepository.save(entity);
+        }catch (EntityNotFoundException e){
+            e.printStackTrace();
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     public void updateData(User entity, User user) {
