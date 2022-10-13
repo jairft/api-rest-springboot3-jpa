@@ -2,8 +2,11 @@ package br.com.ibm.apirest.services;
 
 import br.com.ibm.apirest.entities.User;
 import br.com.ibm.apirest.repositories.UserRepository;
+import br.com.ibm.apirest.services.exceptions.DatabaseException;
 import br.com.ibm.apirest.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +30,14 @@ public class UserService {
        return userRepository.save(user);
     }
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        try {
+            userRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException(e.getMessage());
+        }
+
     }
     public User update(Long id, User user) {
         User entity = userRepository.getReferenceById(id);
@@ -35,7 +45,7 @@ public class UserService {
         return  userRepository.save(entity);
     }
 
-    private void updateData(User entity, User user) {
+    public void updateData(User entity, User user) {
         entity.setName(user.getName());
         entity.setEmail(user.getEmail());
         entity.setPhone(user.getPhone());
